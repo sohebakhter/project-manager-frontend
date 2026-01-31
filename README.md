@@ -1,73 +1,62 @@
-# React + TypeScript + Vite
+# Role-Based Project Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack project management application with strict invite-only user registration and Role-Based Access Control (RBAC).
 
-Currently, two official plugins are available:
+## Connect to GitHub
+NOTE: This repository uses local commits as requested. Commits follow Semantic Commit Messages.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- **Frontend**: React, TypeScript, Tailwind CSS, Vite
+- **Backend**: Node.js, Express, TypeScript, MongoDB (Native Driver)
+- **Auth**: JWT, BCrypt, Role-Based Middleware
 
-## React Compiler
+## Features
+- **Invite-Only Registration**: Users can only register if invited by an Admin via a generated token.
+- **RBAC**: 
+  - **ADMIN**: Invites users, manages users (role/status), manages all projects (edit/soft-delete).
+  - **MANAGER/STAFF**: Can create projects and view all projects. Cannot delete/edit others' projects (unless Admin implemented granular permissions, but currently implemented as Admin-only edit/delete per spec "Only ADMIN can EDIT or DELETE projects").
+- **Soft Delete**: Projects are marked deleted but remain in DB.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## Setup Instructions
 
-## Expanding the ESLint configuration
+### Prerequisites
+- Node.js (v18+)
+- MongoDB Atlas URI
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Backend Setup
+1. Navigate to `/backend`
+2. Install dependencies: `npm install`
+3. Setup `.env`:
+   ```
+   DB_USER=...
+   DB_PASSWORD=...
+   JWT_SECRET=supersecret
+   PORT=5000
+   ```
+4. **Seed Admin User**:
+   ```
+   npm run seed:admin
+   ```
+   *Creates an admin user: `admin@admin.com` / `admin123`*
+5. Start server:
+   ```
+   npm run dev
+   ```
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Frontend Setup
+1. Navigate to `/frontend`
+2. Install dependencies: `npm install`
+3. Start dev server:
+   ```
+   npm run dev
+   ```
+4. Application runs at provided local URL (usually `http://localhost:5173`).
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Workflow
+1. Login as Admin (`admin@admin.com` / `admin123`).
+2. Go to **User Management**.
+3. Click **Invite User**. Enter email and role.
+4. Copy the generated link (or token).
+5. Open link in Incognito (or logout).
+6. Register using the token.
+7. Login as the new user.
