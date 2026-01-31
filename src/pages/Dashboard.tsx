@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/axios';
-import { Project, UserRole } from '../types';
+import type { Project } from '../types';
+import { UserRole } from '../types';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
-import { Trash2, Edit2, Plus, X } from 'lucide-react';
+import { Trash2, Edit2, Plus } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
     const { user } = useAuth();

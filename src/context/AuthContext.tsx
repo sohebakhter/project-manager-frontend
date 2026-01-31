@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import api from '../api/axios';
-import { User } from '../types';
+import type { User } from '../types';
 import toast from 'react-hot-toast';
 
 interface AuthContextType {

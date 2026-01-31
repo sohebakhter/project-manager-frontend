@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/axios';
-import { User, UserRole, UserStatus } from '../types';
+import type { User } from '../types';
+import { UserRole, UserStatus } from '../types';
 import toast from 'react-hot-toast';
 import { Mail, CheckCircle, XCircle } from 'lucide-react';
 
@@ -163,7 +164,7 @@ const AdminUsers: React.FC = () => {
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <select
                                         value={u.role}
-                                        onChange={(e) => handleRoleChange(u._id, e.target.value)}
+                                        onChange={(e) => u._id && handleRoleChange(u._id, e.target.value)}
                                         className="text-sm border-gray-300 border rounded py-1 px-2 focus:ring-blue-500 focus:border-blue-500"
                                     >
                                         {Object.values(UserRole).map(role => (
@@ -179,7 +180,7 @@ const AdminUsers: React.FC = () => {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <button
-                                        onClick={() => handleStatusChange(u._id, u.status)}
+                                        onClick={() => u._id && handleStatusChange(u._id, u.status)}
                                         className={`flex items-center space-x-1 ${u.status === UserStatus.ACTIVE ? 'text-red-600 hover:text-red-900' : 'text-green-600 hover:text-green-900'
                                             }`}
                                     >
