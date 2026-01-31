@@ -1,17 +1,19 @@
-export enum UserRole {
-    ADMIN = 'ADMIN',
-    MANAGER = 'MANAGER',
-    STAFF = 'STAFF'
-}
+export const UserRole = {
+    ADMIN: 'ADMIN',
+    MANAGER: 'MANAGER',
+    STAFF: 'STAFF'
+} as const;
+export type UserRole = typeof UserRole[keyof typeof UserRole];
 
-export enum UserStatus {
-    ACTIVE = 'ACTIVE',
-    INACTIVE = 'INACTIVE'
-}
+export const UserStatus = {
+    ACTIVE: 'ACTIVE',
+    INACTIVE: 'INACTIVE'
+} as const;
+export type UserStatus = typeof UserStatus[keyof typeof UserStatus];
 
 export interface User {
-    _id: string; // MongoDB ID is string in JSON
-    id?: string; // Sometimes mapped
+    id: string; // Backend sends 'id'
+    _id?: string; // MongoDB original ID
     name: string;
     email: string;
     role: UserRole;
